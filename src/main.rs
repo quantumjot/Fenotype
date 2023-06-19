@@ -1,27 +1,23 @@
-use parquet::file::reader::{FileReader, SerializedFileReader};
-use std::path::Path;
-use std::fs::File;
+mod network;
 
-
-fn load(path: &Path) {
-   
-
-    if let Ok(file) = File::open(&path) {
-
-        let reader: SerializedFileReader<File> = SerializedFileReader::new(file).unwrap();
-
-        let parquet_metadata: &parquet::file::metadata::ParquetMetaData = reader.metadata();
-        assert_eq!(parquet_metadata.num_row_groups(), 1);
-
-        let row_group_reader = reader.get_row_group(0).unwrap();
-        assert_eq!(row_group_reader.num_columns(), 1);
-    }
-}
 
 fn main() {
 
-    let path: &Path = Path::new("/Users/arl/Dropbox/Code/py3/ctc-tools/test.tracks/nodes.parquet");
+    let mut _graph: network::graph::Graph = network::networks::gnm_random_graph(10, 1, false);
 
-    load(path);
-    println!("Hello, world!");
+
+
+    println!(
+        "Graph: {} (nodes: {}, edges: {})",
+        _graph.get_uid(),
+        _graph.num_nodes(),
+        _graph.num_edges()
+    );
+
+    println!("Has edge: {}", _graph.has_edge(0, 1));
+
+    _graph.remove_edge(0, 1);
+
+    println!("Has edge: {}", _graph.has_edge(0, 1));
+
 }
