@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  test_phaser:
+  test_graph:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,17 +29,17 @@ jobs:
 
       - name: Lint
         run: |
-          cd phaser
+          cd cell_graph
           cargo fmt -- --check
           cargo clippy -- -D warnings          
 
       - name: Test
         run: |
-          cd phaser
+          cd cell_graph
           cargo check
           cargo test --all          
 
       - name: Build
         run: |
-          cd phaser
+          cd cell_graph
           cargo build --release     
