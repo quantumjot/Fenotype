@@ -4,29 +4,25 @@ use std::collections::HashSet;
 use uuid::Uuid;
 // use log::{info, warn};
 
-
 /// Graph
 pub struct Graph {
     _uid: Uuid,
     directed: bool,
     _node_map: HashMap<i64, Node>,
     _edge_map: HashMap<i64, HashSet<i64>>,
-    
 }
 
 impl Graph {
     pub fn new(directed: bool) -> Graph {
         let uid: Uuid = Uuid::new_v4();
-       
+
         return Graph {
             _uid: uid,
             directed: directed,
             _node_map: HashMap::new(),
             _edge_map: HashMap::new(),
-
         };
     }
-
 
     pub fn get_uid(&self) -> Uuid {
         return self._uid;
@@ -41,11 +37,9 @@ impl Graph {
         let edges: Vec<Edge> = Vec::new();
         return edges;
     }
-    
+
     pub fn add_node(&mut self, node: Node) {
-        self._node_map
-            .entry(node.id)
-            .or_insert(node);
+        self._node_map.entry(node.id).or_insert(node);
     }
 
     pub fn remove_node(&mut self, node: Node) {
@@ -59,8 +53,7 @@ impl Graph {
     }
 
     pub fn add_edge(&mut self, source_id: i64, target_id: i64) {
-
-        println!{"Adding {} -> {}", source_id, target_id};
+        println! {"Adding {} -> {}", source_id, target_id};
 
         if source_id == target_id {
             panic!("Source and target id cannot be the same: {}", source_id);
@@ -68,29 +61,28 @@ impl Graph {
 
         self._edge_map
             .entry(source_id)
-            .and_modify(|targets| { targets.insert(target_id); })
+            .and_modify(|targets| {
+                targets.insert(target_id);
+            })
             .or_insert(HashSet::from([target_id]));
-
 
         if !self.directed {
             self._edge_map
-            .entry(target_id)
-            .and_modify(|sources| { sources.insert(source_id); })
-            .or_insert(HashSet::from([source_id]));
+                .entry(target_id)
+                .and_modify(|sources| {
+                    sources.insert(source_id);
+                })
+                .or_insert(HashSet::from([source_id]));
         }
-
     }
 
     // Remove an edge from the graph
     pub fn remove_edge(&mut self, source_id: i64, target_id: i64) {
+        println! {"Removing {} -> {}", source_id, target_id};
 
-        println!{"Removing {} -> {}", source_id, target_id};
-
-        self._edge_map
-            .entry(source_id)
-            .and_modify(|targets| {
-                targets.remove(&target_id);
-            });
+        self._edge_map.entry(source_id).and_modify(|targets| {
+            targets.remove(&target_id);
+        });
     }
 
     // Iterate over the stored graph and return the number of edges
@@ -107,7 +99,6 @@ impl Graph {
         } else {
             return num_edges / 2;
         }
-
     }
 
     // Return a bool to indicate whether the edges is found in the map
@@ -122,7 +113,3 @@ impl Graph {
         return self._edge_map.get(&source_id);
     }
 }
-
-
-
-

@@ -1,7 +1,7 @@
 // use core::num;
 use rand;
-use std::cmp;
 use rand::seq::SliceRandom;
+use std::cmp;
 
 // use uuid::Uuid;
 
@@ -13,7 +13,7 @@ use crate::graph::Graph;
 fn permutations(n: u64, m: u64) -> Vec<[u64; 2]> {
     let mut _perm: Vec<[u64; 2]> = Vec::new();
     for i in 0..n {
-        for j in (i+1)..m {
+        for j in (i + 1)..m {
             _perm.push([i, j]);
         }
     }
@@ -37,7 +37,6 @@ pub fn complete_graph(_n: u64, directed: bool) -> Graph {
 
 // Implementation of networkx `gnm_random_graph`
 pub fn gnm_random_graph(n: u64, m: u64, directed: bool) -> Graph {
-    
     let mut max_edges: u64 = n * (n - 1);
 
     if !directed {
