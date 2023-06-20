@@ -22,7 +22,7 @@ fn permutations(n: u64, m: u64) -> Vec<[u64; 2]> {
 
 fn random_node(id: i64, _scale: Option<f64>) -> Node {
     let coords: [f64; 3] = rand::random();
-    return Node::new(id, coords);
+    return Node::new_with_coords(id, Some(coords));
 }
 
 // fn random_edge(max_edges: i64) -> Edge {

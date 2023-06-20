@@ -1,6 +1,6 @@
 use crate::base::*;
-use std::collections::HashMap;
-use std::collections::HashSet;
+use std::collections::{HashSet, HashMap};
+use std::collections::hash_map::IntoValues;
 use uuid::Uuid;
 // use log::{info, warn};
 
@@ -24,12 +24,24 @@ impl Graph {
         };
     }
 
+    pub fn new_directed() -> Graph {
+        return Self::new(true);
+    }
+
+    pub fn new_undirected() -> Graph {
+        return Self::new(false);
+    }
+
     pub fn get_uid(&self) -> Uuid {
         return self._uid;
     }
 
-    pub fn nodes(&self) -> Vec<Node> {
-        let nodes: Vec<Node> = Vec::new();
+    pub fn nodes(&self) -> IntoValues<i64, Node> {
+
+        let nodes = self._node_map
+            .clone()
+            .into_values();
+
         return nodes;
     }
 
@@ -52,6 +64,7 @@ impl Graph {
         return self._node_map.len();
     }
 
+    // add a new edge to the graph
     pub fn add_edge(&mut self, source_id: i64, target_id: i64) {
         println! {"Adding {} -> {}", source_id, target_id};
 

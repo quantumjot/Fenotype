@@ -8,11 +8,20 @@ pub trait ID {
 pub struct Node {
     _uid: Uuid,
     pub id: i64,
-    pub coords: [f64; 3],
+    pub coords: Option<[f64; 3]>,
 }
 
 impl Node {
-    pub fn new(id: i64, coords: [f64; 3]) -> Node {
+    pub fn new(id: i64) -> Node {
+        let uid: Uuid = Uuid::new_v4();
+        return Node {
+            _uid: uid,
+            id,
+            coords: None,
+        };
+    }
+
+    pub fn new_with_coords(id: i64, coords: Option<[f64; 3]>) -> Node {
         let uid: Uuid = Uuid::new_v4();
         return Node {
             _uid: uid,

@@ -1,1 +1,4 @@
 /target
+/src/power.rs
+/data/power.py
+*.csv
