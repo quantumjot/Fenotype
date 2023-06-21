@@ -1,5 +1,5 @@
-use cell_graph::graph::Graph;
-use cell_graph::graph::GraphBuilder;
+use fenotype::graph::Graph;
+use fenotype::graph::GraphBuilder;
 use std::path::Path;
 
 fn main() {

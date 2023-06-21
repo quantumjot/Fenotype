@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod tests {
 
-    use cell_graph::base::Node;
-    use cell_graph::graph::Graph;
-    use cell_graph::networks::gnm_random_graph;
+    use fenotype::base::Node;
+    use fenotype::graph::Graph;
+    use fenotype::networks::gnm_random_graph;
 
     use std::collections::HashSet;
 
