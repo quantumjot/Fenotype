@@ -12,18 +12,18 @@ pub struct Node {
 }
 
 impl Node {
-    pub fn new(id: i64) -> Node {
+    pub fn new(id: i64) -> Self {
         let uid: Uuid = Uuid::new_v4();
-        return Node {
+        return Self {
             _uid: uid,
             id,
             coords: None,
         };
     }
 
-    pub fn new_with_coords(id: i64, coords: Option<[f64; 3]>) -> Node {
+    pub fn new_with_coords(id: i64, coords: Option<[f64; 3]>) -> Self {
         let uid: Uuid = Uuid::new_v4();
-        return Node {
+        return Self {
             _uid: uid,
             id,
             coords,
@@ -45,9 +45,9 @@ pub struct Edge {
 }
 
 impl Edge {
-    pub fn new(source_id: i64, target_id: i64) -> Edge {
+    pub fn new(source_id: i64, target_id: i64) -> Self {
         let uid: Uuid = Uuid::new_v4();
-        return Edge {
+        return Self {
             _uid: uid,
             source_id,
             target_id,

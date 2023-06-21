@@ -1,8 +1,8 @@
 use crate::base::*;
-use std::collections::{HashSet, HashMap};
 use std::collections::hash_map::IntoValues;
-use std::path::Path;
+use std::collections::{HashMap, HashSet};
 use std::fs;
+use std::path::Path;
 use uuid::Uuid;
 // use log::{info, warn};
 
@@ -10,7 +10,6 @@ pub trait GraphBuilder {
     fn from_edges(edges: Vec<[i64; 2]>, directed: bool) -> Self;
     fn from_file(file_path: &Path, directed: bool) -> Self;
 }
-
 
 /// Graph
 pub struct Graph {
@@ -21,7 +20,6 @@ pub struct Graph {
 }
 
 impl GraphBuilder for Graph {
-
     // Create a new graph from an edge list
     fn from_edges(edges: Vec<[i64; 2]>, directed: bool) -> Self {
         let mut graph = Self::new(directed);
@@ -32,25 +30,21 @@ impl GraphBuilder for Graph {
             graph.add_node(Node::new(source_id));
             graph.add_node(Node::new(target_id));
             graph.add_edge(source_id, target_id);
-        };
+        }
 
         return graph;
     }
 
     // Create a new graph from an edge list file
     fn from_file(file_path: &Path, directed: bool) -> Self {
-
-        let contents = fs::read_to_string(file_path.as_os_str())
-            .expect("Cannot parse file.");
+        let contents = fs::read_to_string(file_path.as_os_str()).expect("Cannot parse file.");
 
         let rows = contents.lines();
         let mut edges: Vec<[i64; 2]> = Vec::new();
 
         for row in rows {
-            let edge_indices: Vec<i64>= row
-                .split_whitespace()
-                .map(|s| s.parse().unwrap())
-                .collect();
+            let edge_indices: Vec<i64> =
+                row.split_whitespace().map(|s| s.parse().unwrap()).collect();
 
             if edge_indices.len() != 2 {
                 panic!("Edge list doesn't contain two entries per row.");
@@ -67,7 +61,7 @@ impl Graph {
     pub fn new(directed: bool) -> Self {
         let uid: Uuid = Uuid::new_v4();
 
-        return Graph {
+        return Self {
             _uid: uid,
             _directed: directed,
             _node_map: HashMap::new(),
@@ -88,10 +82,7 @@ impl Graph {
     }
 
     pub fn nodes(&self) -> IntoValues<i64, Node> {
-
-        let nodes = self._node_map
-            .clone()
-            .into_values();
+        let nodes = self._node_map.clone().into_values();
 
         return nodes;
     }
