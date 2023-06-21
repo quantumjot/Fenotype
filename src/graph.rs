@@ -1,34 +1,85 @@
 use crate::base::*;
 use std::collections::{HashSet, HashMap};
 use std::collections::hash_map::IntoValues;
+use std::path::Path;
+use std::fs;
 use uuid::Uuid;
 // use log::{info, warn};
+
+pub trait GraphBuilder {
+    fn from_edges(edges: Vec<[i64; 2]>, directed: bool) -> Self;
+    fn from_file(file_path: &Path, directed: bool) -> Self;
+}
+
 
 /// Graph
 pub struct Graph {
     _uid: Uuid,
-    directed: bool,
+    _directed: bool,
     _node_map: HashMap<i64, Node>,
     _edge_map: HashMap<i64, HashSet<i64>>,
 }
 
+impl GraphBuilder for Graph {
+
+    // Create a new graph from an edge list
+    fn from_edges(edges: Vec<[i64; 2]>, directed: bool) -> Self {
+        let mut graph = Self::new(directed);
+
+        for edge in edges {
+            let source_id = edge[0];
+            let target_id = edge[1];
+            graph.add_node(Node::new(source_id));
+            graph.add_node(Node::new(target_id));
+            graph.add_edge(source_id, target_id);
+        };
+
+        return graph;
+    }
+
+    // Create a new graph from an edge list file
+    fn from_file(file_path: &Path, directed: bool) -> Self {
+
+        let contents = fs::read_to_string(file_path.as_os_str())
+            .expect("Cannot parse file.");
+
+        let rows = contents.lines();
+        let mut edges: Vec<[i64; 2]> = Vec::new();
+
+        for row in rows {
+            let edge_indices: Vec<i64>= row
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
+
+            if edge_indices.len() != 2 {
+                panic!("Edge list doesn't contain two entries per row.");
+            }
+
+            edges.push([edge_indices[0], edge_indices[1]]);
+        }
+
+        return Self::from_edges(edges, directed);
+    }
+}
+
 impl Graph {
-    pub fn new(directed: bool) -> Graph {
+    pub fn new(directed: bool) -> Self {
         let uid: Uuid = Uuid::new_v4();
 
         return Graph {
             _uid: uid,
-            directed: directed,
+            _directed: directed,
             _node_map: HashMap::new(),
             _edge_map: HashMap::new(),
         };
     }
 
-    pub fn new_directed() -> Graph {
+    pub fn new_directed() -> Self {
         return Self::new(true);
     }
 
-    pub fn new_undirected() -> Graph {
+    pub fn new_undirected() -> Self {
         return Self::new(false);
     }
 
@@ -79,7 +130,7 @@ impl Graph {
             })
             .or_insert(HashSet::from([target_id]));
 
-        if !self.directed {
+        if !self._directed {
             self._edge_map
                 .entry(target_id)
                 .and_modify(|sources| {
@@ -107,7 +158,7 @@ impl Graph {
         }
 
         // TODO(arl): I'm not sure I like this
-        if self.directed {
+        if self._directed {
             return num_edges;
         } else {
             return num_edges / 2;
