@@ -114,6 +114,15 @@ impl Graph {
             panic!("Source and target id cannot be the same: {}", source_id);
         }
 
+        // check that the nodes exist already
+        self._node_map
+            .get(&source_id)
+            .expect("Source node doesn't exist");
+
+        self._node_map
+            .get(&target_id)
+            .expect("Target node doesn't exist");
+
         self._edge_map
             .entry(source_id)
             .and_modify(|targets| {

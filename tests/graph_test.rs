@@ -8,6 +8,28 @@ mod tests {
     use std::collections::HashSet;
 
     #[test]
+    fn test_new_graph() {
+        let _graph: Graph = Graph::new(false);
+
+        assert_eq!(_graph.num_nodes(), 0);
+        assert_eq!(_graph.num_edges(), 0);
+    }
+
+    #[test]
+    fn test_add_node() {
+        let mut _graph: Graph = Graph::new(false);
+        _graph.add_node(Node::new(0));
+        assert_eq!(_graph.num_nodes(), 1);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_add_edge_without_nodes() {
+        let mut _graph: Graph = Graph::new(false);
+        _graph.add_edge(0, 1);
+    }
+
+    #[test]
     fn test_random_graph() {
 
         let num_nodes: u64 = 10;
