@@ -82,7 +82,9 @@ impl Graph {
     }
 
     pub fn nodes(&self) -> IntoValues<i64, Node> {
-        let nodes = self._node_map.clone().into_values();
+        let nodes = self._node_map
+            .clone()
+            .into_values();
 
         return nodes;
     }
@@ -93,13 +95,19 @@ impl Graph {
     }
 
     pub fn add_node(&mut self, node: Node) {
-        self._node_map.entry(node.id).or_insert(node);
+        self._node_map
+            .entry(node.id)
+            .or_insert(node);
     }
 
-    pub fn remove_node(&mut self, node: Node) {
-        if self._node_map.contains_key(&node.id) {
-            self._node_map.remove(&node.id);
+    pub fn remove_node(&mut self, node_id: i64) {
+        if self.has_node(node_id) {
+            self._node_map.remove(&node_id);
         }
+    }
+
+    pub fn has_node(&self, node_id: i64) -> bool {
+        return self._node_map.contains_key(&node_id);
     }
 
     pub fn num_nodes(&self) -> usize {
@@ -144,16 +152,19 @@ impl Graph {
     pub fn remove_edge(&mut self, source_id: i64, target_id: i64) {
         println! {"Removing {} -> {}", source_id, target_id};
 
-        self._edge_map.entry(source_id).and_modify(|targets| {
-            targets.remove(&target_id);
-        });
+        self._edge_map
+            .entry(source_id)
+            .and_modify(|targets| { targets.remove(&target_id); });
     }
 
     // Iterate over the stored graph and return the number of edges
     pub fn num_edges(&self) -> usize {
         let mut num_edges: usize = 0;
         for key in self._edge_map.keys() {
-            let edges = self._edge_map.get(key).unwrap().len();
+            let edges = self._edge_map
+                .get(key)
+                .unwrap()
+                .len();
             num_edges += edges;
         }
 
