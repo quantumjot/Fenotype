@@ -30,6 +30,38 @@ mod tests {
     }
 
     #[test]
+    fn test_add_edge() {
+        let mut _graph: Graph = Graph::new(false);
+        _graph.add_node(Node::new(0));
+        _graph.add_node(Node::new(1));
+        _graph.add_edge(0, 1);
+
+        assert_eq!(_graph.num_nodes(), 2);
+        assert_eq!(_graph.num_edges(), 1);
+    }
+
+    #[test]
+    fn test_has_edge() {
+        let mut _graph: Graph = Graph::new(false);
+        _graph.add_node(Node::new(0));
+        _graph.add_node(Node::new(1));
+        _graph.add_edge(0, 1);
+
+        assert!(_graph.has_edge(0, 1));
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_doesnt_have_edge() {
+        let mut _graph: Graph = Graph::new(false);
+        _graph.add_node(Node::new(0));
+        _graph.add_node(Node::new(1));
+        _graph.add_edge(0, 1);
+
+        assert!(_graph.has_edge(0, 2));
+    }
+
+    #[test]
     fn test_random_graph() {
 
         let num_nodes: u64 = 10;
