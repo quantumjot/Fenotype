@@ -1,5 +1,7 @@
 /target
+/flames
 /src/power.rs
 /data/power.py
 *.tsv
 .vscode
+.DS_Store

@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+use std::string::String;
+
 use uuid::Uuid;
 
 pub trait ID {
@@ -5,10 +8,19 @@ pub trait ID {
 }
 
 #[derive(Copy, Clone)]
+struct Coordinates<T> {
+    x: Option<T>,
+    y: Option<T>,
+    z: Option<T>,
+    t: Option<T>,
+}
+
+
+#[derive(Copy, Clone)]
 pub struct Node {
     _uid: Uuid,
     pub id: i64,
-    pub coords: Option<[f64; 3]>,
+    // pub coords: Option<Coordinates<T>>,
 }
 
 impl Node {
@@ -17,18 +29,17 @@ impl Node {
         return Self {
             _uid: uid,
             id,
-            coords: None,
         };
     }
 
-    pub fn new_with_coords(id: i64, coords: Option<[f64; 3]>) -> Self {
-        let uid: Uuid = Uuid::new_v4();
-        return Self {
-            _uid: uid,
-            id,
-            coords,
-        };
-    }
+    // pub fn new_with_coords<T>(id: i64, coords: Option<Coordinates<T>>) -> Self {
+    //     let uid: Uuid = Uuid::new_v4();
+    //     return Self {
+    //         _uid: uid,
+    //         id,
+    //         coords,
+    //     };
+    // }
 }
 
 impl ID for Node {

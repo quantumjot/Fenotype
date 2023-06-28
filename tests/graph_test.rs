@@ -67,9 +67,8 @@ mod tests {
         let mut _graph: Graph = Graph::new(false);
         _graph.add_node(Node::new(0));
         _graph.add_node(Node::new(1));
-        _graph.add_edge(0, 1);
-
-        assert!(_graph.has_edge(0, 2));
+        
+        assert!(_graph.has_edge(0, 1));
     }
 
     #[test]

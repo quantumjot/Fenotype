@@ -10,20 +10,21 @@ use crate::graph::Graph;
 // use sets::Set;
 // use std::collections::HashMap;
 
-fn permutations(n: u64, m: u64) -> Vec<[u64; 2]> {
-    let mut _perm: Vec<[u64; 2]> = Vec::new();
+fn unique_permutations(n: u64) -> Vec<[u64; 2]> {
+    let _capacity: usize = ((n*(n-1))/2) as usize;
+    let mut _perm: Vec<[u64; 2]> = Vec::with_capacity(_capacity);
     for i in 0..n {
-        for j in (i + 1)..m {
+        for j in (i + 1)..n {
             _perm.push([i, j]);
         }
     }
+    // println!("{} -> {} unique permutations", n, _perm.len());
     return _perm;
 }
 
-fn random_node(id: i64, _scale: Option<f64>) -> Node {
-    let coords: [f64; 3] = rand::random();
-    return Node::new_with_coords(id, Some(coords));
-}
+// fn random_node(id: i64) -> Node {
+//     return Node::new(id);
+// }
 
 // fn random_edge(max_edges: i64) -> Edge {
 
@@ -35,6 +36,7 @@ pub fn complete_graph(_n: u64, directed: bool) -> Graph {
     return graph;
 }
 
+
 // Implementation of networkx `gnm_random_graph`
 pub fn gnm_random_graph(n: u64, m: u64, directed: bool) -> Graph {
     let mut max_edges: u64 = n * (n - 1);
@@ -45,15 +47,13 @@ pub fn gnm_random_graph(n: u64, m: u64, directed: bool) -> Graph {
 
     max_edges = cmp::min(max_edges, m);
 
-    println!("Max edges: {}", max_edges);
-
     // if m >= max_edges {
     //     return complete_graph(n, directed);
     // }
 
     let mut graph: Graph = Graph::new(directed);
     for idx in 0..n {
-        graph.add_node(random_node(idx as i64, Some(1.)));
+        graph.add_node(Node::new(idx as i64));
     }
 
     // in the case where we only have one node, return the graph
@@ -61,7 +61,7 @@ pub fn gnm_random_graph(n: u64, m: u64, directed: bool) -> Graph {
         return graph;
     }
 
-    let perms = permutations(n, max_edges);
+    let perms = unique_permutations(n);
 
     // NOTE(arl): nice method to randomly select items from the vector of edges
     let sample: Vec<_> = perms

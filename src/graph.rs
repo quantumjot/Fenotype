@@ -37,14 +37,17 @@ impl GraphBuilder for Graph {
 
     // Create a new graph from an edge list file
     fn from_file(file_path: &Path, directed: bool) -> Self {
-        let contents = fs::read_to_string(file_path.as_os_str()).expect("Cannot parse file.");
+        let contents = fs::read_to_string(file_path.as_os_str())
+            .expect("Cannot parse file.");
 
         let rows = contents.lines();
         let mut edges: Vec<[i64; 2]> = Vec::new();
 
         for row in rows {
-            let edge_indices: Vec<i64> =
-                row.split_whitespace().map(|s| s.parse().unwrap()).collect();
+            let edge_indices: Vec<i64> = row
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
 
             if edge_indices.len() != 2 {
                 panic!("Edge list doesn't contain two entries per row.");
@@ -116,7 +119,7 @@ impl Graph {
 
     // add a new edge to the graph
     pub fn add_edge(&mut self, source_id: i64, target_id: i64) {
-        println! {"Adding {} -> {}", source_id, target_id};
+        // println! {"Adding {} -> {}", source_id, target_id};
 
         if source_id == target_id {
             panic!("Source and target id cannot be the same: {}", source_id);
@@ -150,7 +153,7 @@ impl Graph {
 
     // Remove an edge from the graph
     pub fn remove_edge(&mut self, source_id: i64, target_id: i64) {
-        println! {"Removing {} -> {}", source_id, target_id};
+        // println! {"Removing {} -> {}", source_id, target_id};
 
         self._edge_map
             .entry(source_id)

@@ -7,3 +7,15 @@ The name is an unholy amalgam of:
 Various graph algorithms.  
 
 *NOTE:* I'm using this as an opportunity to learn Rust.
+
+---
+
+### Usage
+
+```rs
+let path = Path::new("./data/karate.tsv");
+let graph = Graph::from_file(path, false);
+
+let node: i64 = 0;
+println!("Node {} has {:?} neighbors", node, graph.neighbors(node));
+```

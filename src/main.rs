@@ -2,6 +2,7 @@ use fenotype::graph::Graph;
 use fenotype::graph::GraphBuilder;
 use std::path::Path;
 
+
 fn main() {
 
     let path = Path::new("./data/karate.tsv");
