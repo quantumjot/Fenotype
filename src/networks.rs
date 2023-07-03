@@ -3,32 +3,11 @@ use rand;
 use rand::seq::SliceRandom;
 use std::cmp;
 
-// use uuid::Uuid;
 
 use crate::base::Node;
 use crate::graph::Graph;
-// use sets::Set;
-// use std::collections::HashMap;
+use crate::utils::unique_permutations;
 
-fn unique_permutations(n: u64) -> Vec<[u64; 2]> {
-    let _capacity: usize = ((n*(n-1))/2) as usize;
-    let mut _perm: Vec<[u64; 2]> = Vec::with_capacity(_capacity);
-    for i in 0..n {
-        for j in (i + 1)..n {
-            _perm.push([i, j]);
-        }
-    }
-    // println!("{} -> {} unique permutations", n, _perm.len());
-    return _perm;
-}
-
-// fn random_node(id: i64) -> Node {
-//     return Node::new(id);
-// }
-
-// fn random_edge(max_edges: i64) -> Edge {
-
-// }
 
 // Implementation of networkx `complete_graph`
 pub fn complete_graph(_n: u64, directed: bool) -> Graph {
